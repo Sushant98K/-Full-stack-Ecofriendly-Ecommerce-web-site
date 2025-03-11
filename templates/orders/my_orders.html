@@ -1,0 +1,38 @@
+<!-- templates/orders/my_orders.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center">My Orders</h1>
+    {% if orders %}
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Sr.No.</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ order.product.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td>{{ order.address }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{ order.order_date|date:"M d, Y H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center mt-4">You have no orders yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

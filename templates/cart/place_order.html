@@ -1,0 +1,74 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Place order{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <h1>Place Order</h1>
+    <table class="table table-bordered">
+        <form method="post" action="{% url 'order_now' %}" class="mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+    
+        </form>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.get_total_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total: ₹{{ total_price }}</h3>
+
+    <form action="{% url 'cart:payment_success' %}" method="POST" id="razorpay-form">
+        {% csrf_token %}
+        <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
+        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+        <button type="button" id="razorpay-button" class="btn btn-primary">Pay Now</button>
+    </form>
+</div>
+
+<script>
+    var options = {
+        "key": "{{ razorpay_key_id }}", // Razorpay API Key
+        "amount": "{{ total_price_in_paise }}", // Total amount in paise
+        "currency": "INR",
+        "order_id": "{{ razorpay_order_id }}", // Razorpay order ID
+        "handler": function (response) {
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+            document.getElementById('razorpay-form').submit();
+        },
+        "prefill": {
+            "name": "{{ user.first_name }}",
+            "email": "{{ user.email }}",
+            "contact": "{{ user.profile.phone }}"
+        },
+        "theme": {
+            "color": "#F37254"
+        }
+    };
+    
+    var rzp1 = new Razorpay(options);
+    
+    document.getElementById('razorpay-button').onclick = function(e) {
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+
+{% endblock%}

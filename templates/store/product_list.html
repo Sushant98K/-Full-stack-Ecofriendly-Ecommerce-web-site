@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-title text-center mb-4">All Products</h2>
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card eco-card h-100 d-flex flex-column shadow-sm">
+                {% if product.image %}
+                    <div class="eco-card-img">
+                        <img src="{{ product.image.url }}" class="card-img-top rounded-top-4" alt="{{ product.name }}">
+                    </div>
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200" class="card-img-top rounded-top-4" alt="No Image">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-success fw-bold">Price: ₹{{ product.price }}</p>
+                    <a href="{{ product.id }}/" class="btn eco-btn mb-2 w-100">View Details</a>
+                </div>
+
+                <div class="card-footer bg-white border-0">
+                    <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="quantity" value="1" min="1">
+                            <button type="submit" class="btn eco-btn">Add to Cart</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <style>
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2e7d32; /* Eco-friendly green */
+        }
+        
+        .eco-card {
+            border: 1px solid #7dee0c;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(238, 235, 5, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .eco-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(175, 99, 99, 0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        
+        .eco-btn {
+            background-color: #4caf50;
+            color: white;
+            border-radius: 25px;
+            padding: 8px 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .eco-btn:hover {
+            background-color: #388e3c;
+        }
+        
+        .input-group input {
+            border-radius: 12px;
+        }
+    </style>
+    {% endfor %}
+</div>
+{% endblock %}
+    {% block slider-images %}
+    <h1 class="mb-4"></h1>
+<form method="get" action="{% url 'product_list' %}" class="d-flex mb-4 me-5 ms-5">
+    <input type="text" class="form-control me-2" name="q" value="{{ query }}" placeholder="Search for products...">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+    
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static 'images/plastic.jpg' %}" class="d-block w-100" alt="images">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'images/Ecohoy.jpg' %}" class="d-block w-100" alt="images">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'images/Home.jpg' %}" class="d-block w-100" alt="images">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <section class="categories container text-center my-5">
+        <h2 class="section-title">Featured-products</h2>
+        <p>Discover sustainable, eco-friendly products for a better tomorrow.</p>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{% static 'images/istock.jpg' %}" alt="Recycled" class="category-img">
+                <p>Recycled Products</p>
+            </div>  
+            <div class="col-md-3">
+                <img src="{% static 'images/hand-drawn.jpg' %}" height="192px" alt="Organic" class="category-img">
+                <p>Organic Goods</p>
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'images/handmade.jpg' %}" height="192px" alt="Handmade" class="category-img">
+                <p>Handmade Items</p>
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'images/istockphoto.jpg' %}" height="191" alt="Bamboo" class="category-img">
+                <p>Bamboo Essentials</p>
+            </div>
+        </div>
+    </section>
+    
+        <style>
+            /* 🌿 General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+    }
+    
+    /* 🌱 Hero Section */
+    .hero-section {
+        background: url('{% static "images/green-leaves-abstract-background-free-vector.jpg" %}') no-repeat center center/cover;
+        height: 30%;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color:black;
+    }
+    
+    .hero-section h1 {
+        font-size: 3rem;
+    }
+    
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+    
+    /* 🌍 Categories */
+    .categories img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 128, 0, 0.3);
+    }
+    
+    .categories p {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    
+    
+    
+        </style>
+    {% endblock slider-images %}
+</div>

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="container py-5 contact-section">
+    <h1 class="text-center mb-4 text-success fw-bold">Get in Touch with <span class="eco-highlight">EcoShop</span></h1>
+    <p class="text-center mb-5 text-muted">
+        Have questions, feedback, or need assistance? We’re here to help you with all your eco-friendly needs! 🌿
+    </p>
+
+    <div class="row g-4">
+        <!-- Contact Information -->
+        <div class="col-md-5 contact-info shadow-lg rounded-4 p-4 bg-white">
+            <h3 class="text-success mb-3">Our Address</h3>
+            <p class="text-muted">
+                <i class="bi bi-geo-alt-fill text-success me-2"></i><strong>Office:</strong> Real Tech Park<br>
+                <i class="bi bi-envelope-fill text-success me-2"></i><strong>Email:</strong> contact@ecoshop.com<br>
+                <i class="bi bi-telephone-fill text-success me-2"></i><strong>Phone:</strong> +123 456 7890
+            </p>
+
+            <h3 class="text-success mt-4">Follow Us</h3>
+            <div class="social-links d-flex">
+                <a href="https://facebook.com" class="social-icon facebook" target="_blank"><i class="bi bi-facebook"></i></a>
+                <a href="https://instagram.com" class="social-icon instagram" target="_blank"><i class="bi bi-instagram"></i></a>
+                <a href="https://youtube.com" class="social-icon youtube" target="_blank"><i class="bi bi-youtube"></i></a>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-7 shadow-lg rounded-4 p-4 bg-light">
+            <h3 class="text-success mb-4">Send Us a Message</h3>
+            <form method="post" action="{% url 'contact' %}" class="eco-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control rounded-3 shadow-sm" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Your Email</label>
+                    <input type="email" class="form-control rounded-3 shadow-sm" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control rounded-3 shadow-sm" id="subject" name="subject" placeholder="Enter the subject" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control rounded-3 shadow-sm" id="message" name="message" rows="5" placeholder="Type your message here" required></textarea>
+                </div>
+                <button type="submit" class="btn eco-btn w-100">Send Message <i class="bi bi-send ms-2"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.contact-section h1 .eco-highlight {
+    color: #2c7a4b;
+    font-weight: bold;
+}
+.contact-info i {
+    font-size: 1.1rem;
+}
+.social-links .social-icon {
+    font-size: 1.8rem;
+    margin-right: 15px;
+    color: #2c7a4b;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-links .facebook:hover { color: #1877f2; transform: scale(1.2); }
+.social-links .instagram:hover { color: #e4405f; transform: scale(1.2); }
+.social-links .youtube:hover { color: #ff0000; transform: scale(1.2); }
+.eco-form input, .eco-form textarea {
+    border: 2px solid #2c7a4b;
+}
+.eco-form input:focus, .eco-form textarea:focus {
+    border-color: #45a049;
+    box-shadow: 0 0 5px rgba(69, 160, 73, 0.5);
+}
+.eco-btn {
+    background-color: #2c7a4b;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.eco-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}

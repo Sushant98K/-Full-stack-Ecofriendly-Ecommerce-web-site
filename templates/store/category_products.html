@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}{{ category_name }} - EcoShop{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <form method="get" action="{% url 'product_list' %}" class="d-flex mb-4">
+        <input type="text" class="form-control me-2 shadow-sm rounded-3" name="q" value="{{ query }}" placeholder="Search eco-friendly products...">
+        <button type="submit" class="btn btn-success shadow-sm">Search</button>
+    </form>
+
+    <h2 class="text-center text-success mb-5">{{ category_name }}</h2>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="eco-card card h-100 border-0 rounded-4 shadow-sm">
+                    {% if product.image %}
+                        <div class="eco-card-img">
+                            <img src="{{ product.image.url }}" class="card-img-top rounded-top-4" alt="{{ product.name }}">
+                        </div>
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x200" class="card-img-top rounded-top-4" alt="No Image">
+                    {% endif %}
+
+                    <div class="card-body text-center">
+                        <h5 class="eco-card-title">{{ product.name }}</h5>
+                        <p class="fw-bold text-success">Price: ₹{{ product.price }}</p>
+                    </div>
+
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                        <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="add-to-cart-form w-100">
+                            {% csrf_token %}
+                            <button type="submit" class="eco-btn w-100">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .eco-btn {
+                    background: linear-gradient(135deg, #2ecc71, #27ae60); /* Vibrant green shades */
+                    color: #fff;
+                    border: none;
+                    padding: 12px 20px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    border-radius: 50px;
+                    width: 100%;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+                }
+                
+                .eco-btn i {
+                    font-size: 18px;
+                }
+                
+                .eco-btn:hover {
+                    background: linear-gradient(135deg, #27ae60, #1abc9c); /* Slightly lighter on hover */
+                    transform: translateY(-3px) scale(1.05); /* Smooth lift effect */
+                    box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+                }
+                
+                
+            </style>
+        {% empty %}
+            <p class="text-center text-muted">No products found in this category.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

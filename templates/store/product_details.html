@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Details{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center">
+        <!-- Product Image -->
+        <div class="col-md-6 mb-4">
+            <div class="product-card shadow-lg rounded-4 overflow-hidden">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-4" alt="{{ product.name }}">
+            </div>
+        </div>
+
+        <!-- Product Details and Buttons -->
+        <div class="col-md-6">
+            <h1 class="mb-3 text-success fw-bold">{{ product.name }}</h1>
+            <h3 class="mb-3 text-primary">Price: ₹{{ product.price }}</h3>
+            <p class="mb-4 text-muted">{{ product.description }}</p>
+            <p class="fw-semibold text-dark">Stock: <span class="text-success">{{ product.stock }}</span></p>
+
+            <div class="d-grid gap-3 mt-4">
+                <!-- Order Now Button -->
+                <form method="post" action="{% url 'order_now' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn eco-btn w-100">
+                        <i class="bi bi-bag-check"></i> Order Now
+                    </button>
+                </form>
+
+                <!-- Add to Wishlist Button -->
+                <form method="post" action="{% url 'add_to_wishlist' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_name" value="{{ product.name }}">
+                    <input type="hidden" name="product_url" value="{{ request.build_absolute_uri }}">
+                    <button type="submit" class="btn eco-btn-outline w-100">
+                        <i class="bi bi-heart"></i> Add to Wishlist
+                    </button>
+                </form>
+
+                <!-- Back to Product List Button -->
+                <a href="{% url 'product_list' %}" class="btn btn-secondary w-100">
+                    <i class="bi bi-arrow-left"></i> Back to Product List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .eco-btn {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .eco-btn:hover {
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
+        transform: scale(1.05);
+    }
+
+    .eco-btn-outline {
+        background: transparent;
+        color: #27ae60;
+        border: 2px solid #27ae60;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .eco-btn-outline:hover {
+        background: #27ae60;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .product-card img {
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
