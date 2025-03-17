@@ -22,6 +22,7 @@
             <div class="d-grid gap-3 mt-4">
                 <!-- Order Now Button -->
                 <form method="post" action="{% url 'order_now' %}">
+                {% comment %} <form method="post" action="{% url 'cart:add_to_cart' product.id %}"> {% endcomment %}
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.id }}">
                     <button type="submit" class="btn eco-btn w-100">

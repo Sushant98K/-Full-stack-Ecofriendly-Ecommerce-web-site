@@ -19,9 +19,9 @@
             {% for item in cart_items %}
             <tr>
                 <td>{{ item.product.name }}</td>
-                <td>${{ item.product.price }}</td>
+                <td disabled>₹ {{ item.product.price }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>${{ item.get_total_price }}</td>
+                <td>₹ {{ item.get_total_price }}</td>
                 <td>
                     <a href="{% url 'cart:remove_from_cart' item.product.id %}" class="btn btn-danger">Remove</a>
                 </td>
@@ -31,11 +31,12 @@
         <tfoot>
             <tr>
                 <td colspan="3"><strong>Total Price</strong></td>
-                <td>${{ total_price }}</td>
+                <td>₹ {{ total_price }}</td>
                 <td><a href="{% url 'cart:place_order' %}" class="btn btn-success">Place order</a></td>
             </tr>
         </tfoot>
     </table>
+    
 {% else %}
 <p>Your cart is empty.</p>
 {% endif %}

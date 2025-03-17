@@ -25,7 +25,7 @@ def category_products(request, category_code):
     return render(request, 'store/category_products.html', context)
 
 
-@login_required
+# @login_required
 def product_details(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, 'store/product_details.html', {'product': product})

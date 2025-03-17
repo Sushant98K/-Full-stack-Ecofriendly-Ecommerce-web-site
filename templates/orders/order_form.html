@@ -1,58 +1,80 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block title %}Order{% endblock %}
-
+{% extends 'base.html' %} {% load static %} {% block title %}Order{% endblock %}
 {% block content %}
 
 <div class="container py-5">
-    <h1>Order {{ product.name }}</h1>
-    <p>Price per unit: <strong>${{ product.price }}</strong></p>
+  <h1>Order {{ product.name }}</h1>
+  <p>Price per unit: <strong>₹{{ product.price }}</strong></p>
 
-    <form method="post" action="{% url 'order_submit' %}">
-        {% csrf_token %}
-        <input type="hidden" name="product_id" value="{{ product.id }}">
-        <input type="hidden" id="price-per-unit" value="{{ product.price }}">
+  <form method="post" action="{% url 'order_submit' %}">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}" />
+    <input type="hidden" id="price-per-unit" value="{{ product.price }}" />
 
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" name="quantity" class="form-control" id="quantity" min="1" value="1" required>
-        </div>
+    <div class="mb-3">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input
+        type="number"
+        name="quantity"
+        class="form-control"
+        id="quantity"
+        min="1"
+        value="1"
+        required
+      />
+    </div>
 
-        <div class="mb-3">
-            <label for="total-price" class="form-label">Total Price</label>
-            <input type="text" class="form-control" id="total-price" value=
-            "${{ product.price }}" readonly>
-        </div>
-        
-        <div class="mb-3">
-            <label for="address" class="form-label">Delivery Address</label>
-            <textarea name="address" id="address" class="form-control" rows="4" placeholder="Enter delivery address" required></textarea>
-        </div>
-        
-        <div class="mb-3">
-            <label for="phone" class="form-label">Phone Number</label>
-            <input type="text" name="phone" class="form-control" id="phone" placeholder="Enter phone number" required>
-        </div>
+    <div class="mb-3">
+      <label for="total-price" class="form-label">Total Price</label>
+      <input
+        type="text"
+        class="form-control"
+        id="total-price"
+        value="₹{{ product.price }}"
+        disabled
+      />
+    </div>
 
-        <button type="submit" class="btn btn-success">Place Order</button>
-    </form>
+    <div class="mb-3">
+      <label for="address" class="form-label">Delivery Address</label>
+      <textarea
+        name="address"
+        id="address"
+        class="form-control"
+        rows="4"
+        placeholder="Enter delivery address"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input
+        type="text"
+        name="phone"
+        class="form-control"
+        id="phone"
+        placeholder="Enter phone number"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-success">Place Order</button>
+  </form>
 </div>
 
 <!-- Add JavaScript -->
 <script>
-    const quantityInput = document.getElementById('quantity');
-    const totalPriceInput = document.getElementById('total-price');
-    const pricePerUnit = parseFloat(document.getElementById('price-per-unit').value);
+  const quantityInput = document.getElementById("quantity");
+  const totalPriceInput = document.getElementById("total-price");
+  const pricePerUnit = parseFloat(
+    document.getElementById("price-per-unit").value
+  );
 
-    quantityInput.addEventListener('input', function () {
-        const quantity = parseInt(quantityInput.value) || 1;
-        const totalPrice = (pricePerUnit * quantity).toFixed(2);
-        totalPriceInput.value = `$${totalPrice}`;
-    });
+  quantityInput.addEventListener("input", function () {
+    const quantity = parseInt(quantityInput.value) || 1;
+    const totalPrice = (pricePerUnit * quantity).toFixed(2);
+    totalPriceInput.value = `₹${totalPrice}`;
+  });
 </script>
-
-
 
 {% endblock %}
