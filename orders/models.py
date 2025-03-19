@@ -10,6 +10,7 @@ class Order(models.Model):
     address = models.TextField()
     phone = models.CharField(max_length=15)
     order_date = models.DateTimeField(auto_now_add=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, default=0.00)
     
     status = models.CharField(
         max_length=20,

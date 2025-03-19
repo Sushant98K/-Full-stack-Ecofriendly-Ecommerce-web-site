@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from store.models import Product  # Replace with your actual product model import
 from .models import Order
+from decimal import Decimal
 
 @login_required
 def order_now(request):
@@ -19,21 +20,26 @@ def order_now(request):
 def order_submit(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
-        quantity = request.POST.get('quantity')
+        quantity = int(request.POST.get('quantity'))
         address = request.POST.get('address')
         phone = request.POST.get('phone')
+        
+        product = Product.objects.get(id=product_id)
+        total_price = product.price * Decimal(quantity)
 
         product = get_object_or_404(Product, id=product_id)
         Order.objects.create(
             user=request.user,
             product=product,
             quantity=quantity,
+            total_price=total_price,
             address=address,
             phone=phone
         )
 
         messages.success(request, f"Order placed successfully for {product.name}.")
         return redirect('product_list')
+    
     return redirect('product_list')
 
 @login_required
